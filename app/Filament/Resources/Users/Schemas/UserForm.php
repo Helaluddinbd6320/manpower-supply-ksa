@@ -1,36 +1,43 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
 
-class UsersTable
+class UserForm
 {
-    public static function configure(Table $table): Table
+    public static function configure(Schema $schema): Schema
     {
-        return $table
-            ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
+        return $schema
+            ->components([
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
 
-                TextColumn::make('email')
-                    ->searchable(),
+                TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255),
 
-                TextColumn::make('roles.name')
-                    ->label('Role')
-                    ->badge(),
+                TextInput::make('password')
+                    ->password()
+                    ->required(fn (string $context): bool => $context === 'create')
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->maxLength(255)
+                    ->helperText('এডিট করার সময় খালি রাখলে পুরনো পাসওয়ার্ড অপরিবর্তিত থাকবে।'),
 
-                TextColumn::make('created_at')
-                    ->dateTime('d M Y')
-                    ->label('তৈরি হয়েছে')
-                    ->sortable(),
-            ])
-            ->recordActions([
-                EditAction::make(),
-                DeleteAction::make(),
+                Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->required()
+                    ->searchable()
+                    ->preload()
+                    ->label('Role'),
             ]);
     }
 }
