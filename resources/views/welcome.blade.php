@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'Manpower Supply KSA') }} | Staffing & Manpower Solutions in Saudi Arabia</title>
+    <title>Manpower Supply KSA | Staffing & Manpower Solutions in Saudi Arabia</title>
     <meta name="description" content="Manpower Supply KSA is a trusted manpower and staffing solutions provider across Saudi Arabia - Riyadh, Jeddah, Dammam, Jubail, Yanbu, NEOM & all major cities. Skilled, semi-skilled & unskilled workforce with valid Iqama, ready in 24-48 hours.">
 
     @fonts
