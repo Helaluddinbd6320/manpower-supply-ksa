@@ -20,9 +20,9 @@ class SourceAgencyResource extends Resource
 {
     protected static ?string $model = SourceAgency::class;
 
-    protected static string | BackedEnum | null $navigationIcon = Heroicon::OutlinedGlobeAlt;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedGlobeAlt;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Sourcing / Agencies';
+    protected static string|UnitEnum|null $navigationGroup = 'Sourcing / Agencies';
 
     protected static ?string $navigationLabel = 'Source Agencies';
 
