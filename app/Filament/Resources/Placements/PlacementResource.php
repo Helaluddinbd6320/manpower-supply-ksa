@@ -37,11 +37,11 @@ class PlacementResource extends Resource
     }
 
     public static function getRelations(): array
-{
-    return [
-        MonthlyRecordsRelationManager::class,
-    ];
-}
+    {
+        return [
+            MonthlyRecordsRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
@@ -50,5 +50,28 @@ class PlacementResource extends Resource
             'create' => CreatePlacement::route('/create'),
             'edit' => EditPlacement::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * Permission-ভিত্তিক অ্যাক্সেস কন্ট্রোল
+     */
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->can('view placements') ?? false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->can('create placements') ?? false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('edit placements') ?? false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('delete placements') ?? false;
     }
 }

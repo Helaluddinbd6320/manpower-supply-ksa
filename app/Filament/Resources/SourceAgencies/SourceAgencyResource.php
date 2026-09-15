@@ -67,4 +67,29 @@ class SourceAgencyResource extends Resource
     {
         return 'danger';
     }
+
+    /**
+     * Permission-ভিত্তিক অ্যাক্সেস কন্ট্রোল
+     */
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+
+        return $user?->can('view source agencies') || $user?->can('manage source agencies');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->can('manage source agencies') ?? false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('manage source agencies') ?? false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('manage source agencies') ?? false;
+    }
 }

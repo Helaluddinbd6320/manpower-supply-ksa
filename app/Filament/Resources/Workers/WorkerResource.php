@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Workers;
 use App\Filament\Resources\Workers\Pages\CreateWorker;
 use App\Filament\Resources\Workers\Pages\EditWorker;
 use App\Filament\Resources\Workers\Pages\ListWorkers;
+use App\Filament\Resources\Workers\RelationManagers;
 use App\Filament\Resources\Workers\Schemas\WorkerForm;
 use App\Filament\Resources\Workers\Tables\WorkersTable;
 use App\Models\Worker;
@@ -47,11 +48,11 @@ class WorkerResource extends Resource
     }
 
     public static function getRelations(): array
-{
-    return [
-        RelationManagers\DocumentsRelationManager::class,
-    ];
-}
+    {
+        return [
+            RelationManagers\DocumentsRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
@@ -76,5 +77,29 @@ class WorkerResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'success';
+    }
+
+    /**
+     * নিচের মেথডগুলো Permission-ভিত্তিক অ্যাক্সেস কন্ট্রোল করে
+     * (RoleResource-এর GUI থেকে যে permission টিক দেওয়া হবে তার উপর ভিত্তি করে)
+     */
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->can('view workers') ?? false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->can('create workers') ?? false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('edit workers') ?? false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('delete workers') ?? false;
     }
 }

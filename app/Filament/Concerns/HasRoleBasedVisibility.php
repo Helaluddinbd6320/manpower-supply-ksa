@@ -9,50 +9,34 @@ trait HasRoleBasedVisibility
     /**
      * বর্তমান লগইন করা ইউজার sensitive financial ডাটা
      * (Billing Rate, Payout Rate, Margin) দেখার অনুমতি রাখে কিনা।
-     * শুধুমাত্র Super Admin ও Accounts Staff।
      */
     public static function canViewFinancialFields(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole([
-            'Super Admin',
-            'Accounts Staff',
-        ]);
+        return Auth::check() && Auth::user()->can('view billing rates');
     }
 
     /**
-     * Worker Profile এডিট করার অনুমতি — Accounts Staff Worker Profile
-     * এডিট করতে পারবে না (স্পেকের নিয়ম অনুযায়ী)।
+     * Worker Profile এডিট করার অনুমতি।
      */
     public static function canEditWorkerProfile(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole([
-            'Super Admin',
-            'Manager',
-            'Office Staff',
-        ]);
+        return Auth::check() && Auth::user()->can('edit workers');
     }
 
     /**
-     * Placement/Billing ডাটা এডিট করার অনুমতি — Office Staff পারবে না।
+     * Placement/Billing ডাটা এডিট করার অনুমতি।
      */
     public static function canEditPlacementFinancials(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole([
-            'Super Admin',
-            'Accounts Staff',
-        ]);
+        return Auth::check() && Auth::user()->can('edit billing rates');
     }
 
     /**
-     * Manager-এর জন্য সীমিত মার্জিন/প্রফিট রিপোর্ট দেখার অনুমতি।
-     * (Manager দেখতে পারবে কিন্তু ডিটেইলড margin breakdown না — যেমন
-     * টোটাল সামারি দেখাবে, per-worker margin না)
+     * ডিটেইলড মার্জিন/প্রফিট রিপোর্ট দেখার অনুমতি
+     * (per-worker margin breakdown সহ)।
      */
     public static function canViewDetailedMargin(): bool
     {
-        return Auth::check() && Auth::user()->hasAnyRole([
-            'Super Admin',
-            'Accounts Staff',
-        ]);
+        return Auth::check() && Auth::user()->can('view financial dashboard');
     }
 }

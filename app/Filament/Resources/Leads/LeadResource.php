@@ -67,4 +67,29 @@ class LeadResource extends Resource
     {
         return 'danger';
     }
+
+    /**
+     * Permission-ভিত্তিক অ্যাক্সেস কন্ট্রোল
+     */
+    public static function canViewAny(): bool
+    {
+        $user = auth()->user();
+
+        return $user?->can('view leads') || $user?->can('manage leads');
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->can('manage leads') ?? false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('manage leads') ?? false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('manage leads') ?? false;
+    }
 }

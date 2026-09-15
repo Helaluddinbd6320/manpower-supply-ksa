@@ -67,9 +67,32 @@ class JobOrderResource extends Resource
     }
 
     public static function getRelations(): array
-{
-    return [
-        WorkersRelationManager::class,
-    ];
-}
+    {
+        return [
+            WorkersRelationManager::class,
+        ];
+    }
+
+    /**
+     * Permission-ভিত্তিক অ্যাক্সেস কন্ট্রোল
+     */
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->can('view job orders') ?? false;
+    }
+
+    public static function canCreate(): bool
+    {
+        return auth()->user()?->can('create job orders') ?? false;
+    }
+
+    public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('edit job orders') ?? false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return auth()->user()?->can('delete job orders') ?? false;
+    }
 }
