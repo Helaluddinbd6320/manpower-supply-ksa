@@ -9,13 +9,13 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook;
+use Filament\View\PanelsRenderHook; // <-- ১. এটি যোগ করুন
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Blade; // <-- ২. এটি যোগ করুন
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -32,9 +32,22 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2rem')
             ->favicon(asset('images/favicon.png'))
             ->colors([
-                'primary' => Color::hex('#0F766E'), // ChapaiHR প্রাইমারি কালার (টিল)
+                'primary' => Color::hex('#0F766E'),
             ])
             ->darkMode(true)
+            /* --- সার্চের বাম পাশে হোমপেজের আইকন লিঙ্ক যোগ করা হলো --- */
+            ->renderHook(
+                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                fn (): string => Blade::render('
+                    <a href="{{ url(\'/\') }}" 
+                       target="_blank" 
+                       title="View Website" 
+                       class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                        <x-heroicon-o-eye class="w-6 h-6" />
+                    </a>
+                ')
+            )
+            /* ------------------------------------------------ */
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -44,12 +57,6 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 // \Filament\Widgets\AccountWidget::class,
             ])
-            ->renderHook(
-                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
-                fn(): string => '<a href="' . url('/') . '" target="_blank" rel="noopener" title="ওয়েবসাইট দেখুন" class="flex items-center justify-center rounded-lg p-2 text-gray-500 outline-none transition duration-75 hover:bg-gray-50 hover:text-gray-700 focus-visible:bg-gray-50 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-200">'
-                    . '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 shrink-0"><path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" /><path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" /></svg>'
-                    . '</a>',
-            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
