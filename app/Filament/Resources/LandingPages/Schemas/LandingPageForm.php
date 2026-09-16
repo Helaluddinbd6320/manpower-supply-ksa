@@ -27,7 +27,7 @@ class LandingPageForm
                             ->label('URL Slug')
                             ->required()
                             ->unique(ignoreRecord: true)
-                            ->prefix('manpowersupplyksa.com/')
+
                             ->helperText('H1 Heading লেখার সাথে সাথে অটোমেটিক জেনারেট হবে — চাইলে ম্যানুয়ালিও এডিট করতে পারবেন।'),
 
                         Select::make('page_type')
