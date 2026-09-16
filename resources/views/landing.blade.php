@@ -7,13 +7,11 @@
     <meta name="description" content="{{ $page->meta_description }}">
     <link rel="canonical" href="{{ url('/' . $page->slug) }}">
 
-    {{-- Open Graph (সোশ্যাল মিডিয়ায় শেয়ার করলে সুন্দর প্রিভিউ দেখাবে) --}}
     <meta property="og:title" content="{{ $page->meta_title }}">
     <meta property="og:description" content="{{ $page->meta_description }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/' . $page->slug) }}">
 
-    {{-- Structured Data (Google-কে বুঝতে সাহায্য করে এটা একটা স্টাফিং সার্ভিস) --}}
     <script type="application/ld+json">
     {!! json_encode([
         '@context' => 'https://schema.org',
@@ -80,7 +78,7 @@
 </head>
 <body class="antialiased bg-white text-ink font-sans">
 
-    {{-- ============ NAVBAR (হোমপেজের সাথে হুবহু একই) ============ --}}
+    {{-- ============ NAVBAR ============ --}}
     <header class="sticky top-0 z-40 bg-ink/95 backdrop-blur border-b border-white/10">
         <div class="max-w-7xl mx-auto px-5 lg:px-8">
             <div class="flex items-center justify-between h-16 lg:h-20">
@@ -114,13 +112,18 @@
         </div>
     </header>
 
-    {{-- ============ HERO (ডাইনামিক কনটেন্ট) ============ --}}
+    {{-- ============ HERO ============ --}}
     <section class="hero-bg relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-5 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28 relative">
             <div class="max-w-3xl">
-                <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5 mb-6">
-                    ✅ Trusted Manpower Partner in Saudi Arabia
-                </span>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5">
+                        ✅ Trusted Manpower Partner in Saudi Arabia
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5">
+                        🛡️ Ajeer-Compliant Manpower Supply
+                    </span>
+                </div>
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                     {{ $page->h1_heading }}
                 </h1>
@@ -162,7 +165,7 @@
         </div>
     </section>
 
-    {{-- ============ WORKFORCE CATEGORIES (হোমপেজের সাথে কনসিস্টেন্ট) ============ --}}
+    {{-- ============ WORKFORCE CATEGORIES ============ --}}
     <section class="bg-gray-50 py-16 lg:py-24">
         <div class="max-w-7xl mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto">
@@ -197,7 +200,7 @@
         </div>
     </section>
 
-    {{-- ============ CONTACT / CTA (হোমপেজের সাথে হুবহু একই) ============ --}}
+    {{-- ============ CONTACT / CTA ============ --}}
     <section id="contact" class="max-w-7xl mx-auto px-5 lg:px-8 py-16 lg:py-24">
         <div class="rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 overflow-hidden">
             <div class="grid lg:grid-cols-2">
@@ -238,7 +241,7 @@
         </div>
     </section>
 
-    {{-- ============ RELATED PAGES (SEO ইন্টারনাল লিংকিং) ============ --}}
+    {{-- ============ RELATED PAGES ============ --}}
     @if ($relatedPages->isNotEmpty())
         <section class="max-w-7xl mx-auto px-5 lg:px-8 pb-16 lg:pb-24">
             <h3 class="text-lg font-semibold text-ink mb-5">Explore More Locations & Services</h3>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Manpower Supply KSA | Staffing & Manpower Solutions in Saudi Arabia</title>
-    <meta name="description" content="Manpower Supply KSA is a trusted manpower and staffing solutions provider across Saudi Arabia - Riyadh, Jeddah, Dammam, Jubail, Yanbu, NEOM & all major cities. Skilled, semi-skilled & unskilled workforce with valid Iqama, ready in 24-48 hours.">
+    <meta name="description" content="Manpower Supply KSA is a trusted, Ajeer-compliant manpower and staffing solutions provider across Saudi Arabia - Riyadh, Jeddah, Dammam, Jubail, Yanbu, NEOM & all major cities. Skilled, semi-skilled & unskilled workforce with valid Iqama, ready in 24-48 hours.">
 
     @fonts
 
@@ -94,9 +94,14 @@
     <section id="top" class="hero-bg relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-5 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-28 relative">
             <div class="max-w-3xl">
-                <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5 mb-6">
-                    ✅ Trusted Manpower Partner in Saudi Arabia
-                </span>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5">
+                        ✅ Trusted Manpower Partner in Saudi Arabia
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 text-brand-200 text-xs font-medium px-4 py-1.5">
+                        🛡️ Ajeer-Compliant Manpower Supply
+                    </span>
+                </div>
                 <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                     Reliable Manpower Supply Across <span class="text-brand-400">Saudi Arabia</span>
                 </h1>
@@ -139,7 +144,7 @@
                 <p class="text-brand-600 font-semibold text-sm uppercase tracking-wider">About Us</p>
                 <h2 class="mt-2 text-2xl lg:text-3xl font-bold text-ink">Your Workforce Partner in Saudi Arabia</h2>
                 <p class="mt-4 text-gray-600 leading-relaxed">
-                    We specialize in supplying skilled, semi-skilled, and unskilled workforce to main companies, subcontractors, facility management, hospitality, healthcare, and construction sectors — with document-verified, medically fit candidates ready to join.
+                    We specialize in supplying skilled, semi-skilled, and unskilled workforce to main companies, subcontractors, facility management, hospitality, healthcare, and construction sectors — with document-verified, medically fit candidates ready to join. Our operations follow the Ajeer framework set by the Ministry of Human Resources and Social Development (MHRSD) for lawful temporary workforce supply and secondment in the Kingdom.
                 </p>
 
                 <div class="mt-6 grid sm:grid-cols-2 gap-4">
@@ -243,6 +248,7 @@
                 @foreach ([
                     ['icon' => '⚡', 'title' => 'Fast Deployment', 'desc' => 'Candidates ready to join within 24-48 hours.'],
                     ['icon' => '📄', 'title' => 'Valid Iqama', 'desc' => 'All candidates hold valid Iqama and are ready to transfer.'],
+                    ['icon' => '🛡️', 'title' => 'Ajeer Compliant', 'desc' => 'Manpower supply operations aligned with MHRSD Ajeer regulations for lawful secondment.'],
                     ['icon' => '🗓️', 'title' => 'Daily & Monthly Supply', 'desc' => 'Flexible workforce supply for short or long-term needs.'],
                     ['icon' => '✅', 'title' => 'Verified Workers', 'desc' => 'Document verified and medically fit candidates only.'],
                     ['icon' => '🔄', 'title' => 'Replacement Guarantee', 'desc' => 'Round-the-clock support with replacement guarantee.'],
