@@ -6,16 +6,17 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem; // <-- ১. এটি যোগ করুন
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
-use Filament\View\PanelsRenderHook; // <-- ১. এটি যোগ করুন
+use Filament\View\PanelsRenderHook; // <-- ২. এটি যোগ করুন
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Blade; // <-- ২. এটি যোগ করুন
+use Illuminate\Support\Facades\Blade; // <-- ৩. এটি যোগ করুন
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -28,35 +29,36 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Manpower Supply KSA')
-            // ->brandLogo(asset('images/chapaihr-logo.png'))
             ->brandLogoHeight('2rem')
             ->favicon(asset('images/favicon.png'))
             ->colors([
                 'primary' => Color::hex('#0F766E'),
             ])
             ->darkMode(true)
-            /* --- সার্চের বাম পাশে হোমপেজের আইকন লিঙ্ক যোগ করা হলো --- */
+            
+            /* --- টপবারে গ্লোবাল সার্চের বদলে স্থায়ীভাবে ইউজার মেনুর বামে আইকন দেখাবে --- */
             ->renderHook(
-                PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
+                PanelsRenderHook::TOPBAR_END,
                 fn (): string => Blade::render('
-                    <a href="{{ url(\'/\') }}" 
-                       target="_blank" 
-                       title="View Website" 
-                       class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-                        <x-heroicon-o-eye class="w-6 h-6" />
-                    </a>
+                    <div class="flex items-center me-4">
+                        <a href="{{ url(\'/\') }}" 
+                           target="_blank" 
+                           title="View Website" 
+                           class="flex items-center justify-center w-9 h-9 rounded-lg text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                            <x-heroicon-o-eye class="w-6 h-6" />
+                        </a>
+                    </div>
                 ')
             )
-            /* ------------------------------------------------ */
+            /* ------------------------------------------------------------------ */
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
                 \Filament\Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                // \Filament\Widgets\AccountWidget::class,
-            ])
+            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
