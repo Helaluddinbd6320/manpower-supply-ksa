@@ -167,15 +167,19 @@
         <div class="max-w-7xl mx-auto px-5 lg:px-8">
             <div class="text-center max-w-2xl mx-auto">
                 <p class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Our Workforce Categories</p>
-                <h2 class="mt-2 text-2xl lg:text-3xl font-bold text-ink">60+ Job Categories Available</h2>
+                <h2 class="mt-2 text-2xl lg:text-3xl font-bold text-ink">90+ Job Categories Available</h2>
             </div>
 
             <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach ([
-                    ['title' => 'General & Security', 'items' => ['Cleaners (M/F)', 'Security Guards', 'Drivers (Heavy/Light)', 'Labor']],
-                    ['title' => 'Construction', 'items' => ['Mason', 'Steel Fixer', 'Electrician', 'Plumber', 'Welder', 'AC Technician', 'Scaffolder']],
-                    ['title' => 'Domestic Staff', 'items' => ['Housemaid', 'Nanny', 'Cook', 'Caregiver']],
-                    ['title' => 'Hospitality', 'items' => ['Waiter', 'Barista', 'Cashier', 'Kitchen Helper', 'SPA Therapist']],
+                    ['title' => 'General & Security', 'items' => ['Cleaners (M/F)', 'Security Guards', 'Watchman', 'Drivers (Heavy/Light)', 'General Labor']],
+                    ['title' => 'Construction & Technical', 'items' => ['Mason', 'Carpenter', 'Steel Fixer', 'Painter', 'Electrician', 'Plumber', 'Welder', 'AC Technician', 'Scaffolder']],
+                    ['title' => 'Industrial & Factory', 'items' => ['Production Worker', 'Packaging Worker', 'Factory Helper', 'Mechanic', 'Forklift Operator', 'Warehouse Staff', 'Storekeeper']],
+                    ['title' => 'Driving & Transport', 'items' => ['Heavy Driver', 'Light Driver', 'Heavy Equipment Operator', 'Forklift Operator']],
+                    ['title' => 'Domestic Staff', 'items' => ['Housemaid', 'Nanny/Babysitter', 'Cook (Home)', 'Caregiver', 'House Driver', 'Gardener']],
+                    ['title' => 'Hospitality & Food', 'items' => ['Waiter/Waitress', 'Chef', 'Cook (Commercial)', 'Kitchen Helper', 'Barista', 'Baker', 'Butler', 'Cashier']],
+                    ['title' => 'Medical & Caregiving', 'items' => ['Nursing Aide', 'Caregiver (Elderly/Patient)', 'Hospital Attendant', 'Hospital Cleaner']],
+                    ['title' => 'Retail, Agriculture & Others', 'items' => ['Salesman', 'Shop Assistant', 'Farm Worker', 'Livestock Handler', 'Tailor', 'Landscaper', 'Laundry Worker']],
                 ] as $group)
                     <div class="card-hover rounded-2xl bg-white border border-gray-200 p-6">
                         <h3 class="font-semibold text-ink mb-4">{{ $group['title'] }}</h3>
