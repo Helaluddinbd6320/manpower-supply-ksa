@@ -9,7 +9,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class LandingPageForm
 {
@@ -25,7 +28,7 @@ class LandingPageForm
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->prefix('manpowersupplyksa.com/')
-                            ->helperText('শুধু ছোট হাতের অক্ষর ও হাইফেন, স্পেস নয়। যেমন: manpower-supply-jeddah'),
+                            ->helperText('H1 Heading লেখার সাথে সাথে অটোমেটিক জেনারেট হবে — চাইলে ম্যানুয়ালিও এডিট করতে পারবেন।'),
 
                         Select::make('page_type')
                             ->label('Page Type')
@@ -70,6 +73,15 @@ class LandingPageForm
                             ->label('H1 Heading (পেজের মূল শিরোনাম)')
                             ->required()
                             ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
+                                // ইউজার যদি slug আগে থেকে ম্যানুয়ালি বদলে থাকে, সেটা overwrite করব না
+                                if (filled($old) && $get('slug') !== Str::slug($old)) {
+                                    return;
+                                }
+
+                                $set('slug', Str::slug($state));
+                            })
                             ->helperText('যেমন: Reliable Manpower Supply in Jeddah'),
 
                         RichEditor::make('intro_content')
