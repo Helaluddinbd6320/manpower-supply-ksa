@@ -55,7 +55,16 @@ class JobCategory extends Model
     }
 
     public function sourceAgencies(): BelongsToMany
-{
-    return $this->belongsToMany(SourceAgency::class, 'source_agency_job_categories');
-}
+    {
+        return $this->belongsToMany(SourceAgency::class, 'source_agency_job_categories');
+    }
+
+    /**
+     * এই ক্যাটাগরিতে থাকা Quotation Item-সমূহ
+     * quotation_items টেবিলে job_category_id কলাম অ্যাড হলে এটি কাজ করবে
+     */
+    public function quotationItems(): HasMany
+    {
+        return $this->hasMany(QuotationItem::class);
+    }
 }

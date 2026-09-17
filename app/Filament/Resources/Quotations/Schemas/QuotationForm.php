@@ -103,12 +103,11 @@ class QuotationForm
                         Repeater::make('items')
                             ->relationship('items')
                             ->schema([
-                                Select::make('category')
+                                Select::make('job_category_id')
                                     ->label('Category')
-                                    ->options(fn () => JobCategory::query()
-                                        ->where('is_active', true)
-                                        ->orderBy('sort_order')
-                                        ->pluck('name_en', 'name_en'))
+                                    ->relationship('jobCategory', 'name_en')
+                                    ->getOptionLabelFromRecordUsing(fn (JobCategory $record) => $record->name_en)
+                                    ->modifyQueryUsing(fn ($query) => $query->where('is_active', true)->orderBy('sort_order'))
                                     ->searchable()
                                     ->preload()
                                     ->native(false)
@@ -129,7 +128,7 @@ class QuotationForm
                                             'name_en' => $data['name_en'],
                                         ]);
 
-                                        return $category->name_en;
+                                        return $category->id;
                                     }),
 
                                 Select::make('nationality')
@@ -228,7 +227,7 @@ class QuotationForm
                             ->columns(12)
                             ->reorderable()
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['category'] ?? 'New Item')
+                            ->itemLabel(fn (array $state): ?string => $state['job_category_id'] ? JobCategory::find($state['job_category_id'])?->name_en : 'New Item')
                             ->defaultItems(1)
                             ->addActionLabel('+ Add Category'),
                     ]),

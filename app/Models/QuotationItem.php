@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class QuotationItem extends Model
 {
@@ -11,7 +12,7 @@ class QuotationItem extends Model
 
     protected $fillable = [
         'quotation_id',
-        'category',
+        'job_category_id',
         'nationality',
         'gender',
         'pricing_type',
@@ -29,9 +30,14 @@ class QuotationItem extends Model
         'monthly_rate_per_worker' => 'decimal:2',
     ];
 
-    public function quotation()
+    public function quotation(): BelongsTo
     {
         return $this->belongsTo(Quotation::class);
+    }
+
+    public function jobCategory(): BelongsTo
+    {
+        return $this->belongsTo(JobCategory::class);
     }
 
     public function getRatePerDayAttribute(): ?float
