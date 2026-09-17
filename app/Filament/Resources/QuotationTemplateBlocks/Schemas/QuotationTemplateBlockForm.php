@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\QuotationTemplateBlocks\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -40,13 +40,13 @@ class QuotationTemplateBlockForm
                     ->image()
                     ->disk('public')
                     ->directory('quotation-headers')
-                    ->visible(fn (Get $get) => $get('type') === 'header_image')
-                    ->required(fn (Get $get) => $get('type') === 'header_image'),
+                    ->visible(fn(Get $get) => $get('type') === 'header_image')
+                    ->required(fn(Get $get) => $get('type') === 'header_image'),
 
-                MarkdownEditor::make('content')
+                RichEditor::make('content')
                     ->label('Content')
-                    ->visible(fn (Get $get) => $get('type') !== 'header_image')
-                    ->required(fn (Get $get) => $get('type') !== 'header_image')
+                    ->visible(fn(Get $get) => $get('type') !== 'header_image')
+                    ->required(fn(Get $get) => $get('type') !== 'header_image')
                     ->helperText('এখানে যা লিখবেন তা কোটেশন বানানোর সময় ড্রপডাউন থেকে সিলেক্ট করলে অটো-ফিল হবে।'),
 
                 Toggle::make('is_default')
