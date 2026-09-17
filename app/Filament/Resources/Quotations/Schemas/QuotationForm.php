@@ -105,9 +105,11 @@ class QuotationForm
                             ->schema([
                                 Select::make('job_category_id')
                                     ->label('Category')
-                                    ->relationship('jobCategory', 'name_en')
-                                    ->getOptionLabelFromRecordUsing(fn (JobCategory $record) => $record->name_en)
-                                    ->modifyQueryUsing(fn ($query) => $query->where('is_active', true)->orderBy('sort_order'))
+                                    ->relationship(
+                                        name: 'jobCategory',
+                                        titleAttribute: 'name_en',
+                                        modifyQueryUsing: fn ($query) => $query->where('is_active', true)->orderBy('sort_order'),
+                                    )
                                     ->searchable()
                                     ->preload()
                                     ->native(false)
