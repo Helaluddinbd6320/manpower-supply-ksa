@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\QuotationPdfController;
+
 
 
 Route::get('/', function () {
@@ -10,6 +12,10 @@ Route::get('/', function () {
 });
 
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/quotations/{quotation}/pdf', [QuotationPdfController::class, 'show'])->name('quotations.pdf');
+});
 
 
 // ⚠️ এই রুটটা সবসময় ফাইলের সবার শেষে রাখতে হবে,

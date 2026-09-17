@@ -8,6 +8,8 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
+
 
 class QuotationsTable
 {
@@ -40,7 +42,7 @@ class QuotationsTable
                 TextColumn::make('status')
                     ->badge()
                     ->sortable()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Draft' => 'gray',
                         'Sent' => 'info',
                         'Accepted' => 'success',
@@ -51,7 +53,7 @@ class QuotationsTable
 
                 TextColumn::make('grand_total')
                     ->label('Grand Total / Month')
-                    ->state(fn ($record) => 'SAR ' . number_format($record->grand_total, 2))
+                    ->state(fn($record) => 'SAR ' . number_format($record->grand_total, 2))
                     ->weight('semibold'),
 
                 TextColumn::make('items_count')
@@ -83,6 +85,12 @@ class QuotationsTable
                     ]),
             ])
             ->recordActions([
+                Action::make('downloadPdf')
+                    ->label('PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('gray')
+                    ->url(fn($record) => route('quotations.pdf', $record))
+                    ->openUrlInNewTab(),
                 EditAction::make(),
             ])
             ->toolbarActions([
