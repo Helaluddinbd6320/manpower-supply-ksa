@@ -104,7 +104,7 @@ class QuotationForm
                                 TextInput::make('category')
                                     ->label('Category')
                                     ->required()
-                                    ->columnSpan(2),
+                                    ->columnSpan(4),
 
                                 Select::make('nationality')
                                     ->label('Nationality')
@@ -124,6 +124,7 @@ class QuotationForm
                                     ->default('Any Nationality')
                                     ->searchable()
                                     ->native(false)
+                                    ->columnSpan(4)
                                     ->createOptionForm([
                                         TextInput::make('nationality')->required(),
                                     ])
@@ -137,7 +138,8 @@ class QuotationForm
                                         'Any' => 'Any',
                                     ])
                                     ->default('Any')
-                                    ->native(false),
+                                    ->native(false)
+                                    ->columnSpan(4),
 
                                 Select::make('pricing_type')
                                     ->label('Pricing Type')
@@ -148,24 +150,28 @@ class QuotationForm
                                     ->default('monthly')
                                     ->live()
                                     ->required()
-                                    ->native(false),
+                                    ->native(false)
+                                    ->columnSpan(3),
 
                                 TextInput::make('hours_per_day')
                                     ->label('Hours / Day')
                                     ->numeric()
+                                    ->columnSpan(3)
                                     ->visible(fn (Get $get) => $get('pricing_type') === 'hourly'),
 
                                 TextInput::make('rate_per_hour')
                                     ->label('Rate / Hour (SAR)')
                                     ->numeric()
                                     ->prefix('SAR')
+                                    ->columnSpan(3)
                                     ->visible(fn (Get $get) => $get('pricing_type') === 'hourly'),
 
                                 TextInput::make('qty')
                                     ->label('Quantity')
                                     ->numeric()
                                     ->required()
-                                    ->live(onBlur: true),
+                                    ->live(onBlur: true)
+                                    ->columnSpan(fn (Get $get) => $get('pricing_type') === 'hourly' ? 3 : 4),
 
                                 TextInput::make('monthly_rate_per_worker')
                                     ->label('Total Monthly / Worker (SAR)')
@@ -173,7 +179,8 @@ class QuotationForm
                                     ->prefix('SAR')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->helperText('প্রতি worker-এর মাসিক রেট'),
+                                    ->helperText('প্রতি worker-এর মাসিক রেট')
+                                    ->columnSpan(4),
 
                                 Placeholder::make('grand_total_preview')
                                     ->label('Grand Total / Month')
@@ -183,15 +190,16 @@ class QuotationForm
                                         $total = $qty * $rate;
 
                                         return new HtmlString(
-                                            '<span class="font-semibold text-success-600">SAR ' . number_format($total, 2) . '</span>'
+                                            '<span class="font-semibold text-success-600 text-lg">SAR ' . number_format($total, 2) . '</span>'
                                         );
-                                    }),
+                                    })
+                                    ->columnSpan(4),
 
                                 TextInput::make('notes')
-                                    ->label('Notes')
-                                    ->columnSpan(2),
+                                    ->label('Notes (ঐচ্ছিক)')
+                                    ->columnSpan(12),
                             ])
-                            ->columns(4)
+                            ->columns(12)
                             ->reorderable()
                             ->collapsible()
                             ->itemLabel(fn (array $state): ?string => $state['category'] ?? 'New Item')
