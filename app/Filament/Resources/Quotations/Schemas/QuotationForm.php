@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Quotations\Schemas;
 
+use App\Models\JobCategory;
 use App\Models\QuotationTemplateBlock;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
@@ -97,14 +98,39 @@ class QuotationForm
                     ]),
 
                 Section::make('Quotation Items')
+                    ->columnSpanFull()
                     ->schema([
                         Repeater::make('items')
                             ->relationship('items')
                             ->schema([
-                                TextInput::make('category')
+                                Select::make('category')
                                     ->label('Category')
+                                    ->options(fn () => JobCategory::query()
+                                        ->where('is_active', true)
+                                        ->orderBy('sort_order')
+                                        ->pluck('name_en', 'name_en'))
+                                    ->searchable()
+                                    ->preload()
+                                    ->native(false)
                                     ->required()
-                                    ->columnSpan(4),
+                                    ->columnSpan(4)
+                                    ->createOptionForm([
+                                        TextInput::make('name_en')
+                                            ->label('Category Name (English)')
+                                            ->required()
+                                            ->maxLength(255),
+                                        TextInput::make('name')
+                                            ->label('Category Name (বাংলা / লোকাল)')
+                                            ->maxLength(255),
+                                    ])
+                                    ->createOptionUsing(function (array $data) {
+                                        $category = JobCategory::create([
+                                            'name' => $data['name'] ?: $data['name_en'],
+                                            'name_en' => $data['name_en'],
+                                        ]);
+
+                                        return $category->name_en;
+                                    }),
 
                                 Select::make('nationality')
                                     ->label('Nationality')
