@@ -4,164 +4,166 @@
     <meta charset="utf-8">
     <style>
         body {
-            font-family: 'DejaVu Sans', sans-serif;
-            font-size: 11px;
-            color: #1a1a1a;
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 12px;
+            color: #1f2937;
         }
         .header-image {
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
-        .meta-row {
-            margin-bottom: 12px;
+        .meta-table {
+            width: 100%;
+            margin-bottom: 15px;
         }
-        .meta-row td {
+        .meta-table td {
             padding: 2px 0;
-            vertical-align: top;
         }
-        .quotation-title {
-            text-align: center;
-            font-size: 20px;
+        .meta-label {
             font-weight: bold;
-            text-decoration: underline;
-            margin: 16px 0 12px;
+            width: 140px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #d1d5db;
+            padding-bottom: 3px;
+        }
+        .client-info, .terms-content, .signature-content, .footer-content {
+            margin-bottom: 10px;
         }
         table.items-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 16px;
+            margin-top: 8px;
         }
         table.items-table th {
-            background-color: #1a3a5c;
-            color: #ffffff;
-            font-size: 10px;
-            padding: 6px 4px;
-            border: 1px solid #1a3a5c;
-            text-align: center;
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            text-align: left;
+            font-size: 11px;
         }
         table.items-table td {
-            border: 1px solid #999;
-            padding: 6px 4px;
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            font-size: 11px;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .grand-total-row td {
+            font-weight: bold;
+            background-color: #f9fafb;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
             font-size: 10px;
-            text-align: center;
-        }
-        table.items-table tfoot td {
             font-weight: bold;
-            background-color: #f2f2f2;
+            color: #ffffff;
+            background-color: #6b7280;
         }
-        .section-title {
-            font-weight: bold;
-            font-size: 12px;
-            margin: 14px 0 6px;
-        }
-        .content-block {
-            font-size: 10.5px;
-            line-height: 1.5;
-        }
-        .content-block ol, .content-block ul {
-            margin: 4px 0;
-            padding-left: 18px;
-        }
-        .footer-block {
+        .footer-content {
             margin-top: 20px;
-            border-top: 2px solid #1a3a5c;
+            border-top: 1px solid #d1d5db;
             padding-top: 8px;
-            font-size: 9.5px;
-            color: #444;
+            font-size: 10px;
+            color: #6b7280;
         }
     </style>
 </head>
 <body>
 
-    @if ($headerImageBase64)
-        <img src="{{ $headerImageBase64 }}" class="header-image">
+    @if ($quotation->header_image_path)
+        <img class="header-image" src="{{ $headerImagePath }}">
     @endif
 
-    <table class="meta-row" width="100%">
+    <table class="meta-table">
         <tr>
-            <td width="70%">
-                <div class="content-block">
-                    {!! $quotation->client_info_content !!}
-                </div>
-            </td>
-            <td width="30%" style="text-align: right;">
-                <strong>Quotation No:</strong> {{ $quotation->quotation_number }}<br>
-                <strong>Date:</strong> {{ $quotation->quotation_date->format('M d, Y') }}
-            </td>
+            <td class="meta-label">Quotation No:</td>
+            <td>{{ $quotation->quotation_number }}</td>
+            <td class="meta-label">Date:</td>
+            <td>{{ $quotation->quotation_date?->format('d M, Y') }}</td>
+        </tr>
+        <tr>
+            <td class="meta-label">Client:</td>
+            <td>{{ $quotation->client_company_name }}</td>
+            <td class="meta-label">Status:</td>
+            <td><span class="status-badge">{{ $quotation->status }}</span></td>
         </tr>
     </table>
 
-    <div class="quotation-title">Quotation</div>
+    @if ($quotation->client_info_content)
+        <div class="client-info">
+            {!! \Illuminate\Support\Str::markdown($quotation->client_info_content) !!}
+        </div>
+    @endif
 
+    <div class="section-title">Quotation Items</div>
     <table class="items-table">
         <thead>
             <tr>
-                <th>SN</th>
                 <th>Category</th>
                 <th>Nationality</th>
                 <th>Gender</th>
-                <th>Hours Duty</th>
+                <th>Pricing</th>
                 <th>Qty</th>
-                <th>Rate/Hour</th>
-                <th>Rate/Day</th>
-                <th>Total Monthly</th>
-                <th>Grand Total/Month</th>
+                <th class="text-right">Rate / Worker (SAR)</th>
+                <th class="text-right">Total / Month (SAR)</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($quotation->items as $index => $item)
+            @foreach ($quotation->items as $item)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->jobCategory?->name_en }}</td>
-                    <td>{{ $item->nationality }}</td>
-                    <td>{{ $item->gender }}</td>
+                    <td>{{ $item->jobCategory?->name_en ?? '-' }}</td>
+                    <td>{{ $item->nationality ?? '-' }}</td>
+                    <td>{{ $item->gender ?? '-' }}</td>
                     <td>
-                        @if ($item->pricing_type === 'hourly')
-                            {{ $item->hours_per_day }} hours a day
-                        @else
-                            —
+                        {{ ucfirst($item->pricing_type) }}
+                        @if ($item->pricing_type === 'hourly' && $item->hours_per_day)
+                            ({{ $item->hours_per_day }} hrs/day @ SAR {{ number_format($item->rate_per_hour, 2) }}/hr)
                         @endif
                     </td>
-                    <td>{{ number_format($item->qty) }}</td>
-                    <td>
-                        @if ($item->pricing_type === 'hourly')
-                            {{ number_format($item->rate_per_hour, 2) }}
-                        @else
-                            —
-                        @endif
-                    </td>
-                    <td>
-                        @if ($item->pricing_type === 'hourly')
-                            {{ number_format($item->rate_per_day, 2) }}
-                        @else
-                            —
-                        @endif
-                    </td>
-                    <td>{{ number_format($item->monthly_rate_per_worker, 2) }}</td>
-                    <td>{{ number_format($item->grand_total, 2) }}</td>
+                    <td>{{ $item->qty }}</td>
+                    <td class="text-right">{{ number_format($item->monthly_rate_per_worker, 2) }}</td>
+                    <td class="text-right">{{ number_format($item->qty * $item->monthly_rate_per_worker, 2) }}</td>
                 </tr>
+                @if ($item->notes)
+                    <tr>
+                        <td colspan="7" style="font-style: italic; color: #6b7280;">{{ $item->notes }}</td>
+                    </tr>
+                @endif
             @endforeach
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="9" style="text-align: right;">Overall Grand Total / Month (SAR)</td>
-                <td>{{ number_format($quotation->grand_total, 2) }}</td>
+            <tr class="grand-total-row">
+                <td colspan="6" class="text-right">Grand Total / Month</td>
+                <td class="text-right">SAR {{ number_format($quotation->grand_total, 2) }}</td>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
 
-    <div class="section-title">TERMS & CONDITION</div>
-    <div class="content-block">
-        {!! $quotation->terms_content !!}
-    </div>
+    @if ($quotation->terms_content)
+        <div class="section-title">Terms &amp; Conditions</div>
+        <div class="terms-content">
+            {!! \Illuminate\Support\Str::markdown($quotation->terms_content) !!}
+        </div>
+    @endif
 
-    <div class="content-block" style="margin-top: 16px;">
-        {!! $quotation->signature_content !!}
-    </div>
+    @if ($quotation->signature_content)
+        <div class="section-title">Signature</div>
+        <div class="signature-content">
+            {!! \Illuminate\Support\Str::markdown($quotation->signature_content) !!}
+        </div>
+    @endif
 
-    <div class="footer-block">
-        {!! $quotation->footer_content !!}
-    </div>
+    @if ($quotation->footer_content)
+        <div class="footer-content">
+            {!! \Illuminate\Support\Str::markdown($quotation->footer_content) !!}
+        </div>
+    @endif
 
 </body>
 </html>

@@ -5,9 +5,9 @@ namespace App\Filament\Resources\Quotations\Schemas;
 use App\Models\JobCategory;
 use App\Models\QuotationTemplateBlock;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
@@ -92,7 +92,7 @@ class QuotationForm
                                 }
                             }),
 
-                        RichEditor::make('client_info_content')
+                        MarkdownEditor::make('client_info_content')
                             ->label('Content (এডিট করতে পারবেন)')
                             ->required(),
                     ]),
@@ -110,6 +110,7 @@ class QuotationForm
                                         titleAttribute: 'name_en',
                                         modifyQueryUsing: fn ($query) => $query->where('is_active', true)->orderBy('sort_order'),
                                     )
+                                    ->getOptionLabelFromRecordUsing(fn (JobCategory $record) => $record->name_en ?: $record->name)
                                     ->searchable()
                                     ->preload()
                                     ->native(false)
@@ -250,7 +251,7 @@ class QuotationForm
                                 }
                             }),
 
-                        RichEditor::make('terms_content')
+                        MarkdownEditor::make('terms_content')
                             ->label('Content (এডিট করতে পারবেন)')
                             ->required(),
                     ]),
@@ -271,7 +272,7 @@ class QuotationForm
                                 }
                             }),
 
-                        RichEditor::make('signature_content')
+                        MarkdownEditor::make('signature_content')
                             ->label('Content (এডিট করতে পারবেন)')
                             ->required(),
                     ]),
@@ -292,7 +293,7 @@ class QuotationForm
                                 }
                             }),
 
-                        RichEditor::make('footer_content')
+                        MarkdownEditor::make('footer_content')
                             ->label('Content (এডিট করতে পারবেন)')
                             ->required(),
                     ]),

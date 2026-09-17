@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\QuotationTemplateBlocks\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -43,7 +43,7 @@ class QuotationTemplateBlockForm
                     ->visible(fn (Get $get) => $get('type') === 'header_image')
                     ->required(fn (Get $get) => $get('type') === 'header_image'),
 
-                RichEditor::make('content')
+                MarkdownEditor::make('content')
                     ->label('Content')
                     ->visible(fn (Get $get) => $get('type') !== 'header_image')
                     ->required(fn (Get $get) => $get('type') !== 'header_image')
