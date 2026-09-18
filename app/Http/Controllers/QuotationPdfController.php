@@ -11,6 +11,9 @@ class QuotationPdfController extends Controller
 {
     public function show(Quotation $quotation)
     {
+        // pcre.backtrack_limit ছাড়িয়ে যাওয়া এড়াতে - Mpdf তৈরির আগেই বাড়িয়ে দিতে হবে
+        ini_set('pcre.backtrack_limit', '10000000');
+
         $quotation->load('items.jobCategory');
 
         $headerImageBase64 = $this->toBase64($quotation->header_image_path);
@@ -33,11 +36,16 @@ class QuotationPdfController extends Controller
 
         $mpdf->WriteHTML($html);
 
-        return response(
-            $mpdf->Output($quotation->quotation_number . '.pdf', Destination::INLINE),
-            200,
-            ['Content-Type' => 'application/pdf']
-        );
+        // Destination::INLINE ব্যবহার করলে mpdf নিজেই সরাসরি header() পাঠিয়ে
+        // browser-এ echo করে দেয় - এতে Laravel-এর response() header set করতে
+        // গিয়ে "headers already sent" error দেয়। তাই STRING_RETURN দিয়ে raw
+        // PDF content আনতে হবে, তারপর নিজেরাই clean response বানাতে হবে।
+        $pdfContent = $mpdf->Output('', Destination::STRING_RETURN);
+
+        return response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$quotation->quotation_number.'.pdf"',
+        ]);
     }
 
     private function toBase64(?string $path): ?string
@@ -49,6 +57,6 @@ class QuotationPdfController extends Controller
         $imageData = Storage::disk('public')->get($path);
         $mime = Storage::disk('public')->mimeType($path);
 
-        return 'data:' . $mime . ';base64,' . base64_encode($imageData);
+        return 'data:'.$mime.';base64,'.base64_encode($imageData);
     }
 }
