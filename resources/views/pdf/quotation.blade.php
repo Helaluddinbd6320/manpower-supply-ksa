@@ -77,16 +77,20 @@
         }
 
         .signature-wrap {
-            position: relative;
             margin-top: 16px;
-            min-height: 130px;
+        }
+
+        .signature-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .signature-table td {
+            vertical-align: top;
         }
 
         .seal-image {
-            position: absolute;
-            top: -8px;
-            right: 20px;
-            width: 105px;
+            width: 100px;
             opacity: 0.92;
         }
 
@@ -213,13 +217,20 @@
     </div>
 
     <div class="signature-wrap">
-        <div class="content-block">
-            {!! $quotation->signature_content !!}
-        </div>
-
-        @if ($sealImageBase64)
-            <img src="{{ $sealImageBase64 }}" class="seal-image">
-        @endif
+        <table class="signature-table">
+            <tr>
+                <td width="70%">
+                    <div class="content-block">
+                        {!! $quotation->signature_content !!}
+                    </div>
+                </td>
+                <td width="30%" style="text-align: right;">
+                    @if ($sealImageBase64)
+                        <img src="{{ $sealImageBase64 }}" class="seal-image">
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div class="footer-block">
