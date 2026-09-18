@@ -18,6 +18,7 @@ class Quotation extends Model
         'client_info_content',
         'terms_content',
         'signature_content',
+        'seal_image_path',
         'footer_content',
         'status',
         'created_by',

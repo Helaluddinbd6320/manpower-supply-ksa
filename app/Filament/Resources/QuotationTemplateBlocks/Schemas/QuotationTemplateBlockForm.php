@@ -24,6 +24,7 @@ class QuotationTemplateBlockForm
                         'terms' => 'Terms & Conditions',
                         'signature' => 'Signature Block',
                         'footer' => 'Company Footer',
+                        'seal' => 'Company Seal (Stamp)',
                     ])
                     ->required()
                     ->live()
@@ -33,20 +34,20 @@ class QuotationTemplateBlockForm
                     ->label('Preset Name (শুধু ড্রপডাউনে চেনার জন্য)')
                     ->required()
                     ->maxLength(255)
-                    ->helperText('যেমন: "Standard Header - MS KSA", "Urgent Project Terms"'),
+                    ->helperText('যেমন: "Standard Header - MS KSA", "Official Seal", "Urgent Project Terms"'),
 
                 FileUpload::make('image_path')
-                    ->label('Header Image')
+                    ->label('Image')
                     ->image()
                     ->disk('public')
                     ->directory('quotation-headers')
-                    ->visible(fn(Get $get) => $get('type') === 'header_image')
-                    ->required(fn(Get $get) => $get('type') === 'header_image'),
+                    ->visible(fn (Get $get) => in_array($get('type'), ['header_image', 'seal']))
+                    ->required(fn (Get $get) => in_array($get('type'), ['header_image', 'seal'])),
 
                 RichEditor::make('content')
                     ->label('Content')
-                    ->visible(fn(Get $get) => $get('type') !== 'header_image')
-                    ->required(fn(Get $get) => $get('type') !== 'header_image')
+                    ->visible(fn (Get $get) => ! in_array($get('type'), ['header_image', 'seal']))
+                    ->required(fn (Get $get) => ! in_array($get('type'), ['header_image', 'seal']))
                     ->helperText('এখানে যা লিখবেন তা কোটেশন বানানোর সময় ড্রপডাউন থেকে সিলেক্ট করলে অটো-ফিল হবে।'),
 
                 Toggle::make('is_default')

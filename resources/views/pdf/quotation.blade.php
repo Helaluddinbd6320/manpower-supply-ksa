@@ -62,6 +62,18 @@
             margin: 4px 0;
             padding-left: 18px;
         }
+        .signature-wrap {
+            position: relative;
+            margin-top: 16px;
+            min-height: 130px;
+        }
+        .seal-image {
+            position: absolute;
+            top: -8px;
+            left: 150px;
+            width: 105px;
+            opacity: 0.92;
+        }
         .footer-block {
             margin-top: 20px;
             border-top: 2px solid #1a3a5c;
@@ -179,8 +191,14 @@
         {!! $quotation->terms_content !!}
     </div>
 
-    <div class="content-block" style="margin-top: 16px;">
-        {!! $quotation->signature_content !!}
+    <div class="signature-wrap">
+        <div class="content-block">
+            {!! $quotation->signature_content !!}
+        </div>
+
+        @if ($sealImageBase64)
+            <img src="{{ $sealImageBase64 }}" class="seal-image">
+        @endif
     </div>
 
     <div class="footer-block">

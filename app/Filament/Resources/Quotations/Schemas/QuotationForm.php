@@ -67,6 +67,7 @@ class QuotationForm
                     ]),
 
                 Section::make('Header Image / Letterhead')
+                    ->columns(2)
                     ->schema([
                         Select::make('header_image_path')
                             ->label('Select Header')
@@ -74,6 +75,13 @@ class QuotationForm
                             ->searchable()
                             ->native(false)
                             ->helperText('আগে থেকে আপলোড করা কোনো Header/Letterhead ছবি বেছে নিন।'),
+
+                        Select::make('seal_image_path')
+                            ->label('Select Company Seal (ঐচ্ছিক)')
+                            ->options(fn () => QuotationTemplateBlock::where('type', 'seal')->pluck('title', 'image_path'))
+                            ->searchable()
+                            ->native(false)
+                            ->helperText('সিলেক্ট না করলে PDF-এ কোনো সিল থাকবে না।'),
                     ]),
 
                 Section::make('Client Info (To / Attention / Subject)')
@@ -293,8 +301,8 @@ class QuotationForm
                             }),
 
                         RichEditor::make('footer_content')
-                            ->label('Content (এডিট করতে পারবেন)')
-                            ->required(),
+                            ->label('Content (ঐচ্ছিক)')
+                            ->helperText('বর্তমানে PDF-এ ফুটার সরাসরি হার্ডকোড করা (Mawasim-এর তথ্য দিয়ে) — এই ফিল্ডটা এখন শুধু রেফারেন্স/ভবিষ্যতের জন্য, PDF-এ প্রযোজ্য হচ্ছে না।'),
                     ]),
             ]);
     }

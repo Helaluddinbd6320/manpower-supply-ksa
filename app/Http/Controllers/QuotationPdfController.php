@@ -13,17 +13,13 @@ class QuotationPdfController extends Controller
     {
         $quotation->load('items.jobCategory');
 
-        $headerImageBase64 = null;
-
-        if ($quotation->header_image_path && Storage::disk('public')->exists($quotation->header_image_path)) {
-            $imageData = Storage::disk('public')->get($quotation->header_image_path);
-            $mime = Storage::disk('public')->mimeType($quotation->header_image_path);
-            $headerImageBase64 = 'data:' . $mime . ';base64,' . base64_encode($imageData);
-        }
+        $headerImageBase64 = $this->toBase64($quotation->header_image_path);
+        $sealImageBase64 = $this->toBase64($quotation->seal_image_path);
 
         $html = view('pdf.quotation', [
             'quotation' => $quotation,
             'headerImageBase64' => $headerImageBase64,
+            'sealImageBase64' => $sealImageBase64,
         ])->render();
 
         $mpdf = new Mpdf([
@@ -42,5 +38,17 @@ class QuotationPdfController extends Controller
             200,
             ['Content-Type' => 'application/pdf']
         );
+    }
+
+    private function toBase64(?string $path): ?string
+    {
+        if (! $path || ! Storage::disk('public')->exists($path)) {
+            return null;
+        }
+
+        $imageData = Storage::disk('public')->get($path);
+        $mime = Storage::disk('public')->mimeType($path);
+
+        return 'data:' . $mime . ';base64,' . base64_encode($imageData);
     }
 }
