@@ -86,7 +86,7 @@
         }
 
         .signature-table td {
-            vertical-align: top;
+            vertical-align: middle;
         }
 
         .seal-image {
@@ -224,7 +224,7 @@
                         {!! $quotation->signature_content !!}
                     </div>
                 </td>
-                <td width="30%" style="text-align: right;">
+                <td width="30%" style="text-align: center;">
                     @if ($sealImageBase64)
                         <img src="{{ $sealImageBase64 }}" class="seal-image">
                     @endif
