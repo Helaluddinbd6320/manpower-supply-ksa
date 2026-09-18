@@ -81,16 +81,20 @@
         }
 
         .signature-table {
-            width: 100%;
             border-collapse: collapse;
         }
 
         .signature-table td {
             vertical-align: middle;
+            padding: 0;
+        }
+
+        .signature-text-cell {
+            padding-right: 24px;
         }
 
         .seal-image {
-            width: 100px;
+            width: 90px;
             opacity: 0.92;
         }
 
@@ -219,12 +223,12 @@
     <div class="signature-wrap">
         <table class="signature-table">
             <tr>
-                <td width="70%">
+                <td class="signature-text-cell">
                     <div class="content-block">
                         {!! $quotation->signature_content !!}
                     </div>
                 </td>
-                <td width="30%" style="text-align: center;">
+                <td>
                     @if ($sealImageBase64)
                         <img src="{{ $sealImageBase64 }}" class="seal-image">
                     @endif
