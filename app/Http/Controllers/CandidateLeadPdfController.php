@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\CandidateLead;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Mpdf\Mpdf;
