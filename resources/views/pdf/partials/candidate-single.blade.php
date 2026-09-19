@@ -91,14 +91,13 @@
         <td class="value">{{ $candidate->destinationCountry?->name ?? '—' }}</td>
         <td class="label">Interested Category</td>
         <td class="value">{{ $candidate->jobCategory?->name_en ?? '—' }}</td>
-        <td class="value">{{ $candidate->nationality?->getLabel() ?? ($candidate->nationality ?? '—') }}</td>
-        <td class="value">{{ $candidate->nationalityCountry?->name ?? '—' }}</td>
+
     </tr>
     <tr>
         <td class="label">Source</td>
         <td class="value">{{ $candidate->source }}</td>
-        <td class="label">&nbsp;</td>
-        <td class="value">&nbsp;</td>
+        <td class="label">Nationality</td>
+        <td class="value">{{ $candidate->nationalityCountry?->name ?? ($candidate->nationality?->getLabel() ?? $candidate->nationality ?? '—') }}</td>
     </tr>
 </table>
 
