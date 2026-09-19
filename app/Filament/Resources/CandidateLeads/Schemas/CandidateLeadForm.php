@@ -52,6 +52,16 @@ class CandidateLeadForm
                             ->minValue(16)
                             ->maxValue(65),
 
+                        Select::make('nationality_country_id')
+                            ->label('Nationality')
+                            ->relationship('nationalityCountry', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->createOptionForm([
+                                TextInput::make('name')->required(),
+                            ]),
+
                         TextInput::make('area')
                             ->label('এলাকা / জেলা'),
 

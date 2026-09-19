@@ -53,6 +53,12 @@ class CandidateLeadsTable
                     ->searchable()
                     ->copyable(),
 
+                TextColumn::make('nationalityCountry.name')
+                    ->label('Nationality')
+                    ->badge()
+                    ->color('gray')
+                    ->searchable(),
+
                 TextColumn::make('destinationCountry.name')
                     ->label('Destination')
                     ->badge()

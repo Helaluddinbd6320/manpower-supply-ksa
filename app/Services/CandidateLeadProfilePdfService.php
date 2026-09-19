@@ -23,8 +23,8 @@ class CandidateLeadProfilePdfService
         $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
 
         foreach ($candidates as $index => $candidate) {
-            $candidate->loadMissing(['destinationCountry', 'jobCategory', 'followUps']);
-
+            $candidate->loadMissing(['destinationCountry', 'nationalityCountry', 'jobCategory', 'followUps']);
+            
             $html = view('pdf.partials.candidate-single', [
                 'candidate' => $candidate,
                 'photoBase64' => $this->imageToBase64($candidate->photo_path),

@@ -5,12 +5,18 @@
     <table>
         <tr>
             <td style="width: 60%; vertical-align: middle;">
-                <div style="font-size: 22px; font-weight: bold; color: #0f172a; letter-spacing: 0.5px;">Manpower Supply<span style="color: #0B4F3F;"> KSA</span></div>
-                <div style="font-size: 9.5px; color: #6b7280; margin-top: 2px;">Manpower Recruitment &amp; Placement — Saudi Arabia</div>
+                <div style="font-size: 22px; font-weight: bold; color: #0f172a; letter-spacing: 0.5px;">Manpower
+                    Supply<span style="color: #0B4F3F;"> KSA</span></div>
+                <div style="font-size: 9.5px; color: #6b7280; margin-top: 2px;">Manpower Recruitment &amp; Placement —
+                    Saudi Arabia</div>
             </td>
             <td style="width: 40%; text-align: right; vertical-align: middle;">
-                <div style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; margin-bottom: 4px;">Candidate Ref</div>
-                <div style="font-size: 24px; font-weight: bold; color: #ffffff; background-color: #0B4F3F; border: 2px solid #C9974C; border-radius: 8px; padding: 6px 18px; display: inline-block; letter-spacing: 1px;">CL-{{ str_pad($candidate->id, 4, '0', STR_PAD_LEFT) }}</div>
+                <div
+                    style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; margin-bottom: 4px;">
+                    Candidate Ref</div>
+                <div
+                    style="font-size: 24px; font-weight: bold; color: #ffffff; background-color: #0B4F3F; border: 2px solid #C9974C; border-radius: 8px; padding: 6px 18px; display: inline-block; letter-spacing: 1px;">
+                    CL-{{ str_pad($candidate->id, 4, '0', STR_PAD_LEFT) }}</div>
             </td>
         </tr>
     </table>
@@ -85,6 +91,8 @@
         <td class="value">{{ $candidate->destinationCountry?->name ?? '—' }}</td>
         <td class="label">Interested Category</td>
         <td class="value">{{ $candidate->jobCategory?->name_en ?? '—' }}</td>
+        <td class="value">{{ $candidate->nationality?->getLabel() ?? ($candidate->nationality ?? '—') }}</td>
+        <td class="value">{{ $candidate->nationalityCountry?->name ?? '—' }}</td>
     </tr>
     <tr>
         <td class="label">Source</td>

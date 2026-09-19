@@ -21,6 +21,7 @@ class CandidateLead extends Model
         'status',
         'photo_path',
         'passport_copy_path',
+        'nationality_country_id',
         'next_follow_up_date',
         'notes',
         'entered_by',
@@ -33,6 +34,11 @@ class CandidateLead extends Model
     public function destinationCountry()
     {
         return $this->belongsTo(Country::class, 'destination_country_id');
+    }
+
+    public function nationalityCountry()
+    {
+        return $this->belongsTo(Country::class, 'nationality_country_id');
     }
 
     public function jobCategory()
