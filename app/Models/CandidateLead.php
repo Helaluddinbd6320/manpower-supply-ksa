@@ -19,6 +19,8 @@ class CandidateLead extends Model
         'area',
         'source',
         'status',
+        'photo_path',
+        'passport_copy_path',
         'next_follow_up_date',
         'notes',
         'entered_by',

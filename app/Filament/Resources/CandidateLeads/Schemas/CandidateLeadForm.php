@@ -4,6 +4,7 @@ namespace App\Filament\Resources\CandidateLeads\Schemas;
 
 use App\Models\CandidateLead;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -101,6 +102,21 @@ class CandidateLeadForm
 
                         DatePicker::make('next_follow_up_date')
                             ->label('পরের ফলো-আপ তারিখ'),
+
+                        FileUpload::make('photo_path')
+                            ->label('Candidate Photo')
+                            ->image()
+                            ->disk('r2')
+                            ->directory('candidate-leads/photos')
+                            ->visibility('private')
+                            ->imagePreviewHeight('150'),
+
+                        FileUpload::make('passport_copy_path')
+                            ->label('Passport Copy')
+                            ->disk('r2')
+                            ->directory('candidate-leads/passports')
+                            ->visibility('private')
+                            ->acceptedFileTypes(['image/*', 'application/pdf']),
 
                         Textarea::make('notes')
                             ->label('Notes')
