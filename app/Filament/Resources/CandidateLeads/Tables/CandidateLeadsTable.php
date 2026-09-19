@@ -43,7 +43,7 @@ class CandidateLeadsTable
 
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'New' => 'gray',
                         'Contacted' => 'info',
                         'Interested' => 'warning',
@@ -57,7 +57,7 @@ class CandidateLeadsTable
                     ->label('Next Follow-up')
                     ->date('d M, Y')
                     ->sortable()
-                    ->color(fn ($record) => $record->next_follow_up_date && $record->next_follow_up_date->isPast() ? 'danger' : null),
+                    ->color(fn($record) => $record->next_follow_up_date && $record->next_follow_up_date->isPast() ? 'danger' : null),
 
                 TextColumn::make('enteredBy.name')
                     ->label('Entered By')
@@ -90,8 +90,8 @@ class CandidateLeadsTable
                 TernaryFilter::make('due_for_followup')
                     ->label('Due for Follow-up')
                     ->queries(
-                        true: fn (Builder $query) => $query->whereDate('next_follow_up_date', '<=', now()),
-                        false: fn (Builder $query) => $query,
+                        true: fn(Builder $query) => $query->whereDate('next_follow_up_date', '<=', now()),
+                        false: fn(Builder $query) => $query,
                     ),
             ])
             ->recordActions([
@@ -126,6 +126,13 @@ class CandidateLeadsTable
                             ->success()
                             ->send();
                     }),
+
+                Action::make('downloadPdf')
+                    ->label('PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('gray')
+                    ->url(fn($record) => route('candidate-leads.pdf', $record))
+                    ->openUrlInNewTab(),
 
                 EditAction::make(),
                 DeleteAction::make(),

@@ -28,7 +28,7 @@ class CandidateLeadForm
                         TextInput::make('phone_number')
                             ->label('WhatsApp / Phone Number')
                             ->required()
-                            ->tel()
+                            
                             ->maxLength(255)
                             ->helperText(function ($state, $record) {
                                 if (blank($state)) {

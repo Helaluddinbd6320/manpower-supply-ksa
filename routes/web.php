@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\QuotationPdfController;
+use App\Http\Controllers\CandidateLeadPdfController;
+
 
 
 
@@ -15,6 +17,11 @@ Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap')
 
 Route::middleware('auth')->group(function () {
     Route::get('/quotations/{quotation}/pdf', [QuotationPdfController::class, 'show'])->name('quotations.pdf');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/candidate-leads/{candidateLead}/pdf', [CandidateLeadPdfController::class, 'show'])
+        ->name('candidate-leads.pdf');
 });
 
 
