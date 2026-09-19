@@ -4,142 +4,212 @@
     <meta charset="utf-8">
     <style>
         body {
-            font-family: 'DejaVu Sans', sans-serif;
+            font-family: sans-serif;
             font-size: 11px;
-            color: #1a1a1a;
+            color: #1f2937;
         }
-        .header {
-            background-color: #0e8c4d;
-            color: #ffffff;
-            padding: 14px 16px;
-            margin-bottom: 16px;
+
+        /* ---------- Letterhead ---------- */
+        .letterhead {
+            width: 100%;
+            border-bottom: 3px solid #0B4F3F;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
         }
-        .header h1 {
-            font-size: 18px;
-            margin: 0;
-        }
-        .header p {
-            font-size: 10px;
-            margin: 2px 0 0;
-            opacity: 0.9;
-        }
-        .layout-table {
+        .letterhead table {
             width: 100%;
         }
-        .photo-box {
-            width: 110px;
-            height: 130px;
-            border: 1px solid #ccc;
-            text-align: center;
-            vertical-align: middle;
+
+        /* ---------- Photo / Passport frames ---------- */
+        .photos-table {
+            width: 100%;
+            margin-bottom: 18px;
         }
-        .photo-box img {
+        .photos-table td {
+            text-align: center;
+            vertical-align: top;
+            padding: 0 8px;
+        }
+        .photos-table td.photo-cell {
+            width: 38%;
+        }
+        .photos-table td.passport-cell {
+            width: 62%;
+        }
+
+        .img-frame {
+            display: inline-block;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: #f8fafc;
+            overflow: hidden;
+        }
+        .photo-frame {
+            width: 40mm;
+            height: 50mm;
+        }
+        .passport-frame {
+            width: 85.6mm;
+            height: 53.98mm;
+        }
+
+        .img-placeholder {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 9.5px;
         }
-        .info-table {
+
+        .frame-label {
+            font-size: 8.5px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 6px;
+            font-weight: bold;
+        }
+
+        /* ---------- Data table ---------- */
+        table.data-table {
             width: 100%;
             border-collapse: collapse;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
         }
-        .info-table td {
-            padding: 5px 0;
-            font-size: 11px;
-            vertical-align: top;
+        table.data-table tr {
+            border-bottom: 1px solid #e5e7eb;
         }
-        .info-table td.label {
-            width: 140px;
-            color: #555;
-            font-weight: bold;
+        table.data-table tr:last-child {
+            border-bottom: none;
         }
-        .status-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 10px;
-            background-color: #eefdf3;
-            color: #0e8c4d;
+        table.data-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        table.data-table td {
+            padding: 8px 12px;
+            vertical-align: middle;
+        }
+        table.data-table td.label {
+            width: 32%;
             font-weight: bold;
             font-size: 10px;
+            color: #0B4F3F;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-right: 1px solid #e5e7eb;
         }
+        table.data-table td.value {
+            color: #1f2937;
+            font-size: 12px;
+        }
+
         .section-title {
             font-weight: bold;
             font-size: 12px;
             margin: 18px 0 8px;
             border-bottom: 1px solid #ddd;
             padding-bottom: 4px;
-        }
-        .passport-img {
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #ccc;
-            margin-top: 6px;
+            color: #0B4F3F;
         }
         .notes-box {
             background-color: #f7f7f7;
             padding: 10px;
             font-size: 10.5px;
             line-height: 1.5;
+            border-radius: 6px;
+        }
+        .followup-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .followup-table td {
+            padding: 5px 0;
+            vertical-align: top;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Candidate Profile</h1>
-        <p>Manpower Supply KSA — Internal Reference Sheet</p>
+    <div class="letterhead">
+        <table>
+            <tr>
+                <td style="width: 60%; vertical-align: middle;">
+                    <div style="font-size: 22px; font-weight: bold; color: #0f172a; letter-spacing: 0.5px;">Manpower Supply<span style="color: #0B4F3F;"> KSA</span></div>
+                    <div style="font-size: 9.5px; color: #6b7280; margin-top: 2px;">Manpower Recruitment &amp; Placement — Saudi Arabia</div>
+                </td>
+                <td style="width: 40%; text-align: right; vertical-align: middle;">
+                    <div style="font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 1.5px; font-weight: bold; margin-bottom: 4px;">Candidate Ref</div>
+                    <div style="font-size: 24px; font-weight: bold; color: #ffffff; background-color: #0B4F3F; border: 2px solid #C9974C; border-radius: 8px; padding: 6px 18px; display: inline-block; letter-spacing: 1px;">CL-{{ str_pad($candidate->id, 4, '0', STR_PAD_LEFT) }}</div>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <table class="layout-table">
+    <table class="photos-table">
         <tr>
-            <td width="120" style="vertical-align: top;">
-                <div class="photo-box">
+            <td class="photo-cell">
+                <div class="img-frame photo-frame">
                     @if ($photoBase64)
-                        <img src="{{ $photoBase64 }}">
+                        <img src="{{ $photoBase64 }}" style="width: 40mm; height: 50mm; display: block;">
                     @else
-                        <span style="font-size: 9px; color: #999;">No Photo</span>
+                        <div class="img-placeholder">No Photo</div>
                     @endif
                 </div>
+                <div class="frame-label">Photograph</div>
             </td>
-            <td style="vertical-align: top; padding-left: 16px;">
-                <table class="info-table">
-                    <tr>
-                        <td class="label">Name</td>
-                        <td><strong>{{ $candidate->name }}</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="label">Phone / WhatsApp</td>
-                        <td>{{ $candidate->phone_number }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Age</td>
-                        <td>{{ $candidate->age ?? '—' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Area / District</td>
-                        <td>{{ $candidate->area ?? '—' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Destination Country</td>
-                        <td>{{ $candidate->destinationCountry?->name ?? '—' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Interested Job Category</td>
-                        <td>{{ $candidate->jobCategory?->name_en ?? '—' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Source</td>
-                        <td>{{ $candidate->source }}</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Status</td>
-                        <td><span class="status-badge">{{ $candidate->status }}</span></td>
-                    </tr>
-                    <tr>
-                        <td class="label">Next Follow-up</td>
-                        <td>{{ $candidate->next_follow_up_date?->format('d M, Y') ?? '—' }}</td>
-                    </tr>
-                </table>
+            <td class="passport-cell">
+                <div class="img-frame passport-frame">
+                    @if ($passportBase64)
+                        <img src="{{ $passportBase64 }}" style="width: 85.6mm; height: 53.98mm; display: block;">
+                    @else
+                        <div class="img-placeholder">
+                            @if ($candidate->passport_copy_path)
+                                Passport is a PDF file —<br>see admin panel
+                            @else
+                                No Passport Copy
+                            @endif
+                        </div>
+                    @endif
+                </div>
+                <div class="frame-label">Passport Copy</div>
             </td>
+        </tr>
+    </table>
+
+    <table class="data-table" style="width: 100%; border-collapse: collapse;">
+        <colgroup>
+            <col style="width: 19%;">
+            <col style="width: 31%;">
+            <col style="width: 19%;">
+            <col style="width: 31%;">
+        </colgroup>
+        <tr>
+            <td class="label">Name</td>
+            <td class="value">{{ $candidate->name }}</td>
+            <td class="label">Phone / WhatsApp</td>
+            <td class="value">{{ $candidate->phone_number }}</td>
+        </tr>
+        <tr>
+            <td class="label">Age</td>
+            <td class="value">{{ $candidate->age ?? '—' }}</td>
+            <td class="label">Area / District</td>
+            <td class="value">{{ $candidate->area ?? '—' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Destination Country</td>
+            <td class="value">{{ $candidate->destinationCountry?->name ?? '—' }}</td>
+            <td class="label">Interested Category</td>
+            <td class="value">{{ $candidate->jobCategory?->name_en ?? '—' }}</td>
+        </tr>
+        <tr>
+            <td class="label">Source</td>
+            <td class="value">{{ $candidate->source }}</td>
+            <td class="label">&nbsp;</td>
+            <td class="value">&nbsp;</td>
         </tr>
     </table>
 
@@ -148,19 +218,9 @@
         <div class="notes-box">{{ $candidate->notes }}</div>
     @endif
 
-    @if ($passportBase64)
-        <div class="section-title">Passport Copy</div>
-        <img src="{{ $passportBase64 }}" class="passport-img">
-    @elseif ($candidate->passport_copy_path)
-        <div class="section-title">Passport Copy</div>
-        <p style="font-size: 10px; color: #777;">
-            পাসপোর্ট কপি একটা PDF ফাইল হিসেবে সিস্টেমে আপলোড করা আছে — এটা অ্যাডমিন প্যানেল থেকে আলাদাভাবে দেখুন।
-        </p>
-    @endif
-
     @if ($candidate->followUps->isNotEmpty())
         <div class="section-title">Follow-up History</div>
-        <table class="info-table" style="border-collapse: collapse;">
+        <table class="followup-table">
             @foreach ($candidate->followUps as $followUp)
                 <tr>
                     <td style="width: 100px; font-size: 9.5px; color: #777;">
