@@ -28,7 +28,6 @@ class CandidateLeadForm
                         TextInput::make('phone_number')
                             ->label('WhatsApp / Phone Number')
                             ->required()
-                            
                             ->maxLength(255)
                             ->helperText(function ($state, $record) {
                                 if (blank($state)) {
@@ -36,7 +35,7 @@ class CandidateLeadForm
                                 }
 
                                 $existing = CandidateLead::where('phone_number', $state)
-                                    ->when($record, fn ($q) => $q->where('id', '!=', $record->id))
+                                    ->when($record, fn($q) => $q->where('id', '!=', $record->id))
                                     ->first();
 
                                 if ($existing) {
