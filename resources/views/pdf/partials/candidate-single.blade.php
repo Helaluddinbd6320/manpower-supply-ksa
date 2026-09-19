@@ -57,15 +57,29 @@
     <tr>
         <td class="label">Name</td>
         <td class="value">{{ $candidate->name }}</td>
-        <td class="label">Phone / WhatsApp</td>
-        <td class="value">{{ $candidate->phone_number }}</td>
+        @if ($includePhone)
+            <td class="label">Phone / WhatsApp</td>
+            <td class="value">{{ $candidate->phone_number }}</td>
+        @else
+            <td class="label">Age</td>
+            <td class="value">{{ $candidate->age ?? '—' }}</td>
+        @endif
     </tr>
-    <tr>
-        <td class="label">Age</td>
-        <td class="value">{{ $candidate->age ?? '—' }}</td>
-        <td class="label">Area / District</td>
-        <td class="value">{{ $candidate->area ?? '—' }}</td>
-    </tr>
+    @if ($includePhone)
+        <tr>
+            <td class="label">Age</td>
+            <td class="value">{{ $candidate->age ?? '—' }}</td>
+            <td class="label">Area / District</td>
+            <td class="value">{{ $candidate->area ?? '—' }}</td>
+        </tr>
+    @else
+        <tr>
+            <td class="label">Area / District</td>
+            <td class="value">{{ $candidate->area ?? '—' }}</td>
+            <td class="label">&nbsp;</td>
+            <td class="value">&nbsp;</td>
+        </tr>
+    @endif
     <tr>
         <td class="label">Destination Country</td>
         <td class="value">{{ $candidate->destinationCountry?->name ?? '—' }}</td>

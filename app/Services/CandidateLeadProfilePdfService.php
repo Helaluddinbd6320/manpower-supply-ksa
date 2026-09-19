@@ -9,7 +9,7 @@ use Mpdf\Mpdf;
 
 class CandidateLeadProfilePdfService
 {
-    public function generate(Collection $candidates): string
+    public function generate(Collection $candidates, bool $includePhone = true): string
     {
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
@@ -30,6 +30,7 @@ class CandidateLeadProfilePdfService
                 'candidate' => $candidate,
                 'photoBase64' => $this->imageToBase64($candidate->photo_path),
                 'passportBase64' => $this->imageToBase64($candidate->passport_copy_path),
+                'includePhone' => $includePhone,
             ])->render();
 
             if ($index > 0) {

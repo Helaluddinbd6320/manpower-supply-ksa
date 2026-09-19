@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Filament\Forms\Components\Toggle;
 
 class CandidateLeadsTable
 {
@@ -39,7 +40,7 @@ class CandidateLeadsTable
                     ->label('Photo')
                     ->size(60)
                     ->defaultImageUrl(asset('images/placeholder-avatar.png'))
-                    ->getStateUsing(fn ($record) => $record->photo_path
+                    ->getStateUsing(fn($record) => $record->photo_path
                         ? self::cachedTemporaryUrl($record->photo_path)
                         : null),
 
@@ -65,7 +66,7 @@ class CandidateLeadsTable
 
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'New' => 'gray',
                         'Contacted' => 'info',
                         'Interested' => 'warning',
@@ -79,7 +80,7 @@ class CandidateLeadsTable
                     ->label('Next Follow-up')
                     ->date('d M, Y')
                     ->sortable()
-                    ->color(fn ($record) => $record->next_follow_up_date && $record->next_follow_up_date->isPast() ? 'danger' : null),
+                    ->color(fn($record) => $record->next_follow_up_date && $record->next_follow_up_date->isPast() ? 'danger' : null),
 
                 TextColumn::make('enteredBy.name')
                     ->label('Entered By')
@@ -112,8 +113,8 @@ class CandidateLeadsTable
                 TernaryFilter::make('due_for_followup')
                     ->label('Due for Follow-up')
                     ->queries(
-                        true: fn (Builder $query) => $query->whereDate('next_follow_up_date', '<=', now()),
-                        false: fn (Builder $query) => $query,
+                        true: fn(Builder $query) => $query->whereDate('next_follow_up_date', '<=', now()),
+                        false: fn(Builder $query) => $query,
                     ),
             ])
             ->recordActions([
@@ -153,7 +154,7 @@ class CandidateLeadsTable
                     ->label('PDF')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('gray')
-                    ->url(fn ($record) => route('candidate-leads.pdf', $record))
+                    ->url(fn($record) => route('candidate-leads.pdf', $record))
                     ->openUrlInNewTab(),
 
                 EditAction::make(),
@@ -163,9 +164,14 @@ class CandidateLeadsTable
                 BulkAction::make('exportProfileSheets')
                     ->label('Export Profile PDF')
                     ->icon('heroicon-o-document-arrow-down')
-                    ->action(function ($records) {
+                    ->schema([
+                        Toggle::make('include_phone')
+                            ->label('Include Phone / WhatsApp Number')
+                            ->default(true),
+                    ])
+                    ->action(function (array $data, $records) {
                         $service = app(CandidateLeadProfilePdfService::class);
-                        $path = $service->generate($records);
+                        $path = $service->generate($records, $data['include_phone']);
 
                         return response()
                             ->download($path, 'candidate-profiles-' . now()->format('Y-m-d-His') . '.pdf')
