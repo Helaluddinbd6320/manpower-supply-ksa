@@ -32,7 +32,7 @@ class AgentForm
 
                 TextInput::make('mobile_number')
                     ->label('Mobile Number')
-                    ->tel()
+                    
                     ->maxLength(20),
 
                 Textarea::make('notes')
